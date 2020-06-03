@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Stylesheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 const SearchBar = () => {
   return (
@@ -10,7 +10,7 @@ const SearchBar = () => {
   };
 
 
-const styles = Stylesheet.create({});
+const styles = StyleSheet.create({});
 
 export default SearchBar;
 
