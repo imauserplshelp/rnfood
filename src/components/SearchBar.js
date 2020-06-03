@@ -15,4 +15,3 @@ const styles = Stylesheet.create({});
 export default SearchBar;
 
 
-
