@@ -6,21 +6,22 @@ import yelp from '../api/yelp';
 const SearchScreen = () => {
   const [term, setTerm] = useState('');
   const [results, setResults] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const searchApi = async () => {
-    const response = await yelp.get('/search', {
-      //If pass params property to 2nd arg of an axios call any key/value 
-      //pairs we put insdide of here will automatically appended to 
-      //request URL
-      params: {
-        limit: 50,
-        term,
-        location: 'san jose'
-      }	
-    });
-    //Anytime we want to update some piece of state, wivh is where we're 
-    //going to store these search resutls, we'll use that setter -- setResults
-    setResults(response.data.businesses);
+  	try {
+      const response = await yelp.get('/search', {
+        params: {
+          limit: 50,
+          term: term,
+          location: 'san jose'
+        }	
+      });
+      setResults(response.data.businesses);
+	} catch (err) {
+      console.log(err);
+      setErrorMessage('Something went wrong');
+	}
   };
 
   return ( 
@@ -28,10 +29,9 @@ const SearchScreen = () => {
       <SearchBar 
       	term={term} 
       	onTermChange={setTerm} 
-      	//Before onTermChange condensed, written as onTermChange={newTerm => setTerm(newTerm)
  		onTermSubmit={searchApi}
       />
-      <Text>Search Screen</Text>
+      {errorMessage ? <Text> {errorMessage}</Text> : null}
       <Text>We have found {results.length} results</Text>
     </View>
    );
